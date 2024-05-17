@@ -13,6 +13,7 @@ const (
 	maxConnectionLifeTime = time.Minute * 3
 	maxOpenConns          = 100
 	maxIdleConns          = 100
+	driverName            = "mysql"
 )
 
 // New создает стандартный инстанс клиента БД
@@ -26,7 +27,7 @@ func New(host, port, username, password, database string) (*sql.DB, error) {
 		AllowNativePasswords: true,
 	}
 
-	db, err := sql.Open("mysql", cfg.FormatDSN())
+	db, err := sql.Open(driverName, cfg.FormatDSN())
 	if err != nil {
 		return nil, fmt.Errorf("sql.Open failed: %w", err)
 	}
@@ -34,11 +35,6 @@ func New(host, port, username, password, database string) (*sql.DB, error) {
 	db.SetConnMaxLifetime(maxConnectionLifeTime)
 	db.SetMaxOpenConns(maxOpenConns)
 	db.SetMaxIdleConns(maxIdleConns)
-
-	pingErr := db.Ping()
-	if pingErr != nil {
-		return nil, fmt.Errorf("sql.Ping failed: %w", pingErr)
-	}
 
 	return db, nil
 }
