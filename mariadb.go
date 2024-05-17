@@ -4,14 +4,15 @@ package mariadb
 import (
 	"database/sql"
 	"fmt"
-	"github.com/go-sql-driver/mysql"
 	"time"
+
+	"github.com/go-sql-driver/mysql"
 )
 
 const (
 	maxConnectionLifeTime = time.Minute * 3
-	maxOpenConns          = 10
-	maxIdleConns          = 10
+	maxOpenConns          = 100
+	maxIdleConns          = 100
 )
 
 // New создает стандартный инстанс клиента БД
